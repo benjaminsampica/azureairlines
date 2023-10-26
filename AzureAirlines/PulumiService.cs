@@ -24,6 +24,5 @@ public class DeployStack : Stack
             PrincipalId = servicePrincipal.Id,
             Scope = resourceGroup.Id
         });
-    });
     }
 }
