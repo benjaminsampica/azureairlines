@@ -14,21 +14,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-    #- uses: actions/checkout@v4
-    #  with:
-    #    sparse-checkout: |
-    #      iac/main.bicep
-    #    sparse-checkout-cone-mode: false
+    - uses: actions/checkout@v4
     - uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.100-rc.2.23502.2
     - uses: pulumi/actions@v3
       with:
         command: preview
-        stack-name: dev
+        stack-name: benjaminsampica/azure-airlines/dev
+        work-dir: ./AzureAirlines.Deployment
       env:
         PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
     - name: Login to Azure
