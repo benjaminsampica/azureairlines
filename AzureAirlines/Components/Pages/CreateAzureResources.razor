@@ -8,11 +8,14 @@
 </EditForm>
 
 @code {
+    [Inject] CreateAzureResourceWorker Worker { get; set; } = default!;
+
     readonly CreateAzureResourceModel _model = new();
 
-    void ValidFormSubmitted(EditContext editContext)
+    async Task ValidFormSubmitted(EditContext editContext)
     {
         // TODO put a background job in
+        await Worker.StartAsync(default);
     }
 
     class CreateAzureResourceModel
