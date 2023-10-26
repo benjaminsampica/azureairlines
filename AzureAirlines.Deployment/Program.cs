@@ -15,7 +15,10 @@ public class DeployStack : Stack
             ResourceGroupName = "resource-group-test"
         });
 
-        var servicePrincipal = new ServicePrincipal("serviceprincipaltest");
+        var servicePrincipal = new ApplicationRegistration("applicationregistration-sp", new ApplicationRegistrationArgs
+        {
+
+        });
 
         var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
         {
