@@ -1,24 +1,29 @@
 ﻿using Pulumi;
-using Pulumi.Azure.Batch;
-using Pulumi.Azure.Core;
+using Pulumi.AzureNative.Resources;
+using Pulumi.AzureNative.Authorization;
+using Pulumi.AzureAD;
 
 class PulumiService
 {
-    static Task<int> Main() => Deployment.RunAsync<DeployStack>();
+    static Task<int> Main() => Pulumi.Deployment.RunAsync<DeployStack>();
 }
 
 public class DeployStack : Stack
 {
     public DeployStack()
     {
-        var resourceGroup = new ResourceGroup("resourceGroup", new ResourceGroupArgs
+        var resourceGroup = new ResourceGroup("resourcegrouptest", new ResourceGroupArgs
         {
             Location = "North Central US",
         });
 
-        var application = new Application("application", new ApplicationArgs
+        var servicePrincipal = new ServicePrincipal("serviceprincipaltest");
+
+        var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
         {
-            ResourceGroupName = resourceGroup.Name
+            PrincipalId = servicePrincipal.Id,
+            Scope = resourceGroup.Id
         });
+    });
     }
 }
