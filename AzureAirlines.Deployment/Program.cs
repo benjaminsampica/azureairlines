@@ -20,11 +20,9 @@ public class DeployStack : Stack
             DisplayName = "application-registration-test"
         });
 
-        var contributorRole = RoleDefinition.Get("Contributor", "b24988ac-6180-42a0-ab88-20f7382dd24c");
-
         var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
         {
-            RoleDefinitionId = contributorRole.Id,
+            RoleDefinitionId = "b24988ac-6180-42a0-ab88-20f7382dd24c",
             PrincipalId = servicePrincipal.Id,
             Scope = resourceGroup.Id,
             RoleAssignmentName = "role-assignment-test"
