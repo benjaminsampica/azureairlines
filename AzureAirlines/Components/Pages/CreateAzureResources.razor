@@ -4,7 +4,7 @@
 <h3>CreateAzureResources</h3>
 
 <EditForm OnValidSubmit="ValidFormSubmitted" Model=@_model>
-    <button>Create</button>
+    <button class="btn btn-primary">Create</button>
 </EditForm>
 
 @code {
@@ -12,7 +12,7 @@
 
     void ValidFormSubmitted(EditContext editContext)
     {
-
+        // TODO put a background job in
     }
 
     class CreateAzureResourceModel
