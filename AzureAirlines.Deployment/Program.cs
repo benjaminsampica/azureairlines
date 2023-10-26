@@ -17,7 +17,7 @@ public class DeployStack : Stack
 
         var servicePrincipal = new ApplicationRegistration("applicationregistration-sp", new ApplicationRegistrationArgs
         {
-            DisplayName = "application-registration-test-sp"
+            DisplayName = "application-registration-test"
         });
 
         var roleDefinition = new RoleDefinition("roledefinitiontest", new RoleDefinitionArgs {
