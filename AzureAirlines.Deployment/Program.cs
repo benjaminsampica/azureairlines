@@ -13,6 +13,7 @@ public class DeployStack : Stack
         var resourceGroup = new ResourceGroup("resourcegrouptest", new ResourceGroupArgs
         {
             Location = "North Central US",
+            ResourceGroupName = "resource-group-test"
         });
 
         //var servicePrincipal = new ServicePrincipal("serviceprincipaltest");
