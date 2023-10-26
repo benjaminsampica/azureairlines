@@ -1,3 +1,2 @@
-{
-
-}
+config:
+  azure:location: north-central-us
