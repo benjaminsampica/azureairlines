@@ -1,0 +1,61 @@
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group:  'web'
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    #- uses: actions/checkout@v4
+    #  with:
+    #    sparse-checkout: |
+    #      iac/main.bicep
+    #    sparse-checkout-cone-mode: false
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        client-id: ${{ vars.AZURE_WORKFLOW_CLIENT_ID }}
+        tenant-id: ${{ vars.AZURE_TENANT_ID }}
+        subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+    #- name: Deploy Infra to Azure
+    #  uses: azure/arm-deploy@v1
+    #  with:
+    #    scope: 'resourcegroup'
+    #    deploymentName: ${{ github.run_number }}
+    #    resourceGroupName: ${{ env.appName }}-${{ inputs.environment }}-rg
+    #    template: ./iac/main.bicep
+    #    parameters: environment=${{ inputs.environment }}
+    #      azureAdClientId=${{ vars.AZUREAD_CLIENTID }}
+    #      azureAdDomain=${{ vars.AZUREAD_DOMAIN }}
+    #      azureAdInstance=${{ vars.AZUREAD_INSTANCE }}
+    #      googleApiPublicApiKey=${{ vars.GOOGLEAPI_PUBLICAPIKEY }}
+    #      googleApiPrivateApiKey=${{ secrets.GOOGLEAPI_PRIVATEAPIKEY }}
+    #      apiConnectorUsername=${{ vars.APICONNECTOR_USERNAME }}
+    #      apiConnectorPassword=${{ secrets.APICONNECTOR_PASSWORD }}
+    #      stripeCallbackSignature=${{ secrets.STRIPE_CALLBACK_SIGNATURE }}
+    #      stripeCallbackApiKey=${{ secrets.STRIPE_CALLBACK_API_KEY }}
+    #      stripeUiPublishableKey=${{ vars.STRIPE_UI_PUBLISHABLE_KEY }}
+    #      stripeUiPricingTableId=${{ vars.STRIPE_UI_PRICING_TABLE_ID }}
+    #      stripeUiCustomerPortalUrl=${{ vars.STRIPE_UI_CUSTOMER_PORTAL_URL }}
+    #      fmcsaApiKey=${{ secrets.FMCSA_APIKEY }}
+    #- uses: actions/download-artifact@v3
+    #  id: download
+    #  with:
+    #    name: drop-ui
+    #- name: Deploy to Azure Web App
+    #  uses: azure/webapps-deploy@v2
+    #  with:
+    #    app-name: ${{ env.appName }}-${{ inputs.environment }}-app-01
+    #    slot-name: 'production'
+    #    package: ${{ steps.download.outputs.download-path }}
