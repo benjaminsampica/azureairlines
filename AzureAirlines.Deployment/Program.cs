@@ -17,13 +17,14 @@ public class DeployStack : Stack
 
         var servicePrincipal = new ApplicationRegistration("applicationregistration-sp", new ApplicationRegistrationArgs
         {
-
+            DisplayName = "application-registration-test-sp"
         });
 
         var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
         {
             PrincipalId = servicePrincipal.Id,
-            Scope = resourceGroup.Id
+            Scope = resourceGroup.Id,
+            RoleAssignmentName = "role-assignment-test"
         });
     }
 }
