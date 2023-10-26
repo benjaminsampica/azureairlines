@@ -23,7 +23,6 @@
 
         StateHasChanged();
 
-        // TODO create template
         var template = new PulumiStackTemplate();
         var pulumiStack = template.TransformText();
         pulumiStack = pulumiStack.Replace("@AppName", _model.AppName);
