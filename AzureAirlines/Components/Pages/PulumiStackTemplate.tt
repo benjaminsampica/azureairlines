@@ -5,11 +5,11 @@ using Pulumi.AzureNative.Resources;
 
 namespace AzureAirlines.Deployment;
 
-public class PulumiStack : Stack
+public class @AppNameStack : Stack
 {
-    public PulumiStack()
+    public @AppNameStack()
     {
-        var resourceGroup = new ResourceGroup("resourcegrouptest", new ResourceGroupArgs
+        var resourceGroup = new ResourceGroup("dev-ncus-@AppName-rg-01", new ResourceGroupArgs
         {
             Location = "North Central US",
         });

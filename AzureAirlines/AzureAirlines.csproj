@@ -11,11 +11,12 @@
 	<PackageReference Include="Pulumi.Azure" Version="5.53.0" />
 	<PackageReference Include="Pulumi.AzureAD" Version="5.43.0" />
 	<PackageReference Include="Pulumi.AzureNative" Version="2.14.0" />
+	<PackageReference Include="System.CodeDom" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Components\Pages\PulumiStackTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>PulumiStackTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
