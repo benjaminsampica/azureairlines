@@ -4,19 +4,28 @@
 <h3>CreateAzureResources</h3>
 
 <EditForm OnValidSubmit="ValidFormSubmitted" Model=@_model>
-    <button class="btn btn-primary">Create</button>
+
+    <input type="text" class="form-control-lg" @bind-value="@_model.ResourceGroupName" />
+
+    <button class="btn btn-lg btn-primary" disabled="@_model.IsCreateDisabled">Create</button>
 </EditForm>
 
 @code {
+
     readonly CreateAzureResourceModel _model = new();
 
-    void ValidFormSubmitted(EditContext editContext)
+    async Task ValidFormSubmitted(EditContext editContext)
     {
-        // TODO put a background job in
+        _model.IsCreateDisabled = true;
+
+        StateHasChanged();
+
+        // TODO call github api
     }
 
     class CreateAzureResourceModel
     {
-        
+        public string ResourceGroupName { get; set; } = "dev-ncus-devjam-rg-01";
+        public bool IsCreateDisabled { get; set; }
     }
 }
