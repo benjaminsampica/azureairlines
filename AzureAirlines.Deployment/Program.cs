@@ -9,30 +9,33 @@ public class DeployStack : Stack
 {
     public DeployStack()
     {
+        var current = Pulumi.AzureAD.GetClientConfig.Invoke();
+
         var resourceGroup = new ResourceGroup("resourcegrouptest", new ResourceGroupArgs
         {
             Location = "North Central US",
             ResourceGroupName = "resource-group-test"
         });
 
-        var servicePrincipal = new ApplicationRegistration("applicationregistration-sp", new ApplicationRegistrationArgs
+        var appreg = new Application("applicationregistration-sp", new ApplicationArgs
         {
-            DisplayName = "application-registration-test",
-
+            DisplayName = "application-registration-test"
         });
 
-        //var contributor2 = GetRoleDefinition.InvokeAsync(new GetRoleDefinitionArgs
-        //{
-        //    RoleDefinitionId = "b24988ac-6180-42a0-ab88-20f7382dd24c",
-        //    Scope = resourceGroup.Id.Apply()
-        //}); 
-
-        //var contributorResult = contributor2.Result;
+        var sp = new ServicePrincipal("exampleServicePrincipal", new()
+        {
+            ApplicationId = appreg.Id,
+            AppRoleAssignmentRequired = false,
+            Owners = new[]
+            {
+                current.Apply(gccr => gccr.ObjectId),
+            },
+        });
 
         var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
         {
             RoleDefinitionId = "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", // Contributor role ID
-            PrincipalId = servicePrincipal.ObjectId,
+            PrincipalId = sp.ObjectId,
             Scope = resourceGroup.Id,
             PrincipalType = "ServicePrincipal"
         });
