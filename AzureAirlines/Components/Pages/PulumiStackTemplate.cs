@@ -15,7 +15,7 @@ namespace AzureAirlines.Components.Pages
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\799493\developer\azureairlines\AzureAirlines\Components\Pages\PulumiStackTemplate.tt"
+    #line 1 "C:\Users\684314\developer\source\azureairlines\AzureAirlines\Components\Pages\PulumiStackTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class PulumiStackTemplate : PulumiStackTemplateBase
     {

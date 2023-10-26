@@ -1,7 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-using Pulumi;
-//using Pulumi.AzureAD;
-//using Pulumi.AzureNative.Authorization;
+﻿using Pulumi;
+using Pulumi.AzureAD;
+using Pulumi.AzureNative.Authorization;
 using Pulumi.AzureNative.Resources;
 
 await Pulumi.Deployment.RunAsync<DeployStack>();
@@ -16,12 +15,15 @@ public class DeployStack : Stack
             ResourceGroupName = "resource-group-test"
         });
 
-        //var servicePrincipal = new ServicePrincipal("serviceprincipaltest");
+        var servicePrincipal = new ApplicationRegistration("applicationregistration-sp", new ApplicationRegistrationArgs
+        {
 
-        //var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
-        //{
-        //    PrincipalId = servicePrincipal.Id,
-        //    Scope = resourceGroup.Id
-        //});
+        });
+
+        var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
+        {
+            PrincipalId = servicePrincipal.Id,
+            Scope = resourceGroup.Id
+        });
     }
 }
