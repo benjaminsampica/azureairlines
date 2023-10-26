@@ -32,16 +32,9 @@ public class DeployStack : Stack
             },
         });
 
-        var test = GetRoleDefinition.InvokeAsync(new GetRoleDefinitionArgs
-        {
-            RoleDefinitionId = "b24988ac-6180-42a0-ab88-20f7382dd24c",
-        });
-
-        var testResult = test.Result;
-
         var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
         {
-            RoleDefinitionId = testResult.Id, // Contributor role ID
+            RoleDefinitionId = "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", // Contributor role ID
             PrincipalId = sp.ObjectId,
             Scope = resourceGroup.Id,
             PrincipalType = "ServicePrincipal"
