@@ -1,0 +1,22 @@
+﻿@page "/create-azure-resources"
+@attribute [RenderModeInteractiveServer]
+
+<h3>CreateAzureResources</h3>
+
+<EditForm OnValidSubmit="ValidFormSubmitted" Model=@_model>
+    <button>Create</button>
+</EditForm>
+
+@code {
+    readonly CreateAzureResourceModel _model = new();
+
+    void ValidFormSubmitted(EditContext editContext)
+    {
+
+    }
+
+    class CreateAzureResourceModel
+    {
+        
+    }
+}
