@@ -24,7 +24,7 @@ public class DeployStack : Stack
 
         var sp = new ServicePrincipal("exampleServicePrincipal", new()
         {
-            ApplicationId = appreg.Id,
+            ApplicationId = appreg.ApplicationId,
             AppRoleAssignmentRequired = false,
             Owners = new[]
             {
