@@ -22,6 +22,15 @@ jobs:
     #    sparse-checkout: |
     #      iac/main.bicep
     #    sparse-checkout-cone-mode: false
+    - uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.100-rc.2.23502.2
+    - uses: pulumi/actions@v3
+      with:
+        command: preview
+        stack-name: dev
+      env:
+        PULUMI_ACCESS_TOKEN: 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
     - name: Login to Azure
       uses: azure/login@v1
       with:
