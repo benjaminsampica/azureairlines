@@ -23,7 +23,7 @@ public class DeployStack : Stack
         var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
         {
             RoleDefinitionId = "b24988ac-6180-42a0-ab88-20f7382dd24c",
-            PrincipalId = servicePrincipal.Id,
+            PrincipalId = servicePrincipal.ObjectId,
             Scope = resourceGroup.Id
         });
     }
