@@ -5,7 +5,10 @@
 
 <EditForm OnValidSubmit="ValidFormSubmitted" Model=@_model>
 
-    <input type="text" class="form-control-lg" @bind-value="@_model.ResourceGroupName" />
+    <label>
+        App Name
+        <input type="text" class="form-control-lg" @bind-value="@_model.AppName" />
+    </label>
 
     <button class="btn btn-lg btn-primary" disabled="@_model.IsCreateDisabled">Create</button>
 </EditForm>
@@ -22,12 +25,17 @@
         AutoCommit commit = new AutoCommit();
         commit.Commit();
 
+        var template = new PulumiStackTemplate();
+        var pulumiStack = template.TransformText();
+        pulumiStack = pulumiStack.Replace("@AppName", _model.AppName);
+
         // TODO call github api
+
     }
 
     class CreateAzureResourceModel
     {
-        public string ResourceGroupName { get; set; } = "dev-ncus-devjam-rg-01";
+        public string AppName { get; set; } = "devjam5";
         public bool IsCreateDisabled { get; set; }
     }
 }

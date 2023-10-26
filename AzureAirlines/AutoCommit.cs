@@ -19,35 +19,5 @@ public class AutoCommit
             repo.Commit(message, author, commiter);
             Console.WriteLine("Changes committed successfully");
         }
-
-        //using (Process process = new Process())
-        //{
-        //    ProcessStartInfo startInfo = new ProcessStartInfo
-        //    {
-        //        FileName = "git",
-        //        WorkingDirectory = _repository,
-        //        RedirectStandardInput = true,
-        //        RedirectStandardError = true,
-        //        RedirectStandardOutput = true,
-        //        UseShellExecute = false,
-        //        CreateNoWindow = true
-        //    };
-
-        //    process.StartInfo = startInfo; ;
-        //    process.Start();
-
-        //    process.StandardInput.WriteLine("git add .");
-        //    process.StandardInput.WriteLine($"git commit -m \"{message}\"");
-
-        //    process.StandardInput.WriteLine("exit");
-
-        //    string output = process.StandardOutput.ReadToEnd();
-        //    string error = process.StandardError.ReadToEnd();
-
-        //    process.WaitForExit();
-
-        //    Console.WriteLine("output - " + output);
-        //    Console.WriteLine("error - " + error);
-        //}
     }
 }

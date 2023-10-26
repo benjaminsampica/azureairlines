@@ -23,17 +23,17 @@ jobs:
         dotnet-version: 8.0.100-rc.2.23502.2
     - uses: pulumi/actions@v3
       with:
-        command: preview
+        command: up
         stack-name: benjaminsampica/azure-airlines/dev
         work-dir: ./AzureAirlines.Deployment
+        comment-on-pr: true
+        github-token: ${{ secrets.GITHUB_TOKEN }}
       env:
         PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-    - name: Login to Azure
-      uses: azure/login@v1
-      with:
-        client-id: ${{ vars.AZURE_WORKFLOW_CLIENT_ID }}
-        tenant-id: ${{ vars.AZURE_TENANT_ID }}
-        subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+        ARM_CLIENT_ID: ${{ vars.AZURE_WORKFLOW_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.AZURE_WORKFLOW_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
     #- name: Deploy Infra to Azure
     #  uses: azure/arm-deploy@v1
     #  with:
