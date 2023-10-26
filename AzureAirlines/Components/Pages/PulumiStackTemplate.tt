@@ -3,6 +3,8 @@ using Pulumi.AzureAD;
 using Pulumi.AzureNative.Authorization;
 using Pulumi.AzureNative.Resources;
 
+namespace AzureAirlines.Deployment;
+
 public class PulumiStack : Stack
 {
     public PulumiStack()
