@@ -17,7 +17,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - run: echo ${{ secrets.PULUMI_ACCESS_TOKEN }}
     - uses: actions/checkout@v4
     - uses: actions/setup-dotnet@v3
       with:
