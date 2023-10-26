@@ -20,8 +20,13 @@ public class DeployStack : Stack
             DisplayName = "application-registration-test-sp"
         });
 
+        var roleDefinition = new RoleDefinition("roledefinitiontest", new RoleDefinitionArgs {
+            RoleName = "role-definition-test"
+        });
+
         var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
         {
+            RoleDefinitionId = roleDefinition.Id,
             PrincipalId = servicePrincipal.Id,
             Scope = resourceGroup.Id,
             RoleAssignmentName = "role-assignment-test"
