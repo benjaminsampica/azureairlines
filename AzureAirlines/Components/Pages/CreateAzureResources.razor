@@ -13,6 +13,9 @@
     void ValidFormSubmitted(EditContext editContext)
     {
         // TODO put a background job in
+        AutoCommit commit = new AutoCommit();
+        commit.Commit();
+
     }
 
     class CreateAzureResourceModel
