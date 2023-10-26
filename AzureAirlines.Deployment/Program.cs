@@ -20,9 +20,16 @@ public class DeployStack : Stack
             DisplayName = "application-registration-test"
         });
 
-        var roleAssignment = new RoleAssignment("Contributor", new RoleAssignmentArgs
+        var contributor = RoleDefinition.Get("Contributor", "b24988ac-6180-42a0-ab88-20f7382dd24c");
+
+        //var test = GetRoleDefinition.Invoke(new GetRoleDefinitionInvokeArgs {
+        //    RoleDefinitionId = "b24988ac-6180-42a0-ab88-20f7382dd24c",
+        //    Scope = resourceGroup.Id
+        //});
+
+        var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
         {
-            RoleDefinitionId = "b24988ac-6180-42a0-ab88-20f7382dd24c",
+            RoleDefinitionId = contributor.Id,
             PrincipalId = servicePrincipal.ObjectId,
             Scope = resourceGroup.Id
         });
