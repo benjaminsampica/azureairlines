@@ -1,10 +1,26 @@
+using AzureAirlines;
 using AzureAirlines.Components;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+var folder = Environment.SpecialFolder.LocalApplicationData;
+var path = Environment.GetFolderPath(folder);
+var dbPath = Path.Join(path, "AzureAirlines.db");
+builder.Configuration.AddInMemoryCollection(new List<KeyValuePair<string, string?>>
+{
+    new("ConnectionStrings:AzureAirlines", "DataSource=" + dbPath)
+});
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("AzureAirlines"));
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
 
 var app = builder.Build();
 
@@ -23,5 +39,11 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+using var scope = app.Services.CreateScope();
+
+var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+dbContext.Database.EnsureDeleted();
+dbContext.Database.EnsureCreated();
 
 app.Run();
