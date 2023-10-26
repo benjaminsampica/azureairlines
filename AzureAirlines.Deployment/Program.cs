@@ -1,12 +1,10 @@
-﻿using Pulumi;
-using Pulumi.AzureNative.Resources;
-using Pulumi.AzureNative.Authorization;
+﻿// See https://aka.ms/new-console-template for more information
+using Pulumi;
 using Pulumi.AzureAD;
+using Pulumi.AzureNative.Authorization;
+using Pulumi.AzureNative.Resources;
 
-class PulumiService
-{
-    static Task<int> Main() => Pulumi.Deployment.RunAsync<DeployStack>();
-}
+await Pulumi.Deployment.RunAsync<DeployStack>();
 
 public class DeployStack : Stack
 {

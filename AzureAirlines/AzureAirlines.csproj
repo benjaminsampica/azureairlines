@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pulumi" Version="3.57.0" />
-    <PackageReference Include="Pulumi.Azure" Version="5.53.0" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0-rc.2.23480.1" />
   </ItemGroup>
 
 </Project>
