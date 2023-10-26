@@ -1,5 +1,6 @@
 ﻿using Pulumi;
 using Pulumi.AzureAD;
+using Pulumi.AzureNative.ApiManagement;
 using Pulumi.AzureNative.Authorization;
 using Pulumi.AzureNative.Resources;
 
@@ -20,12 +21,16 @@ public class DeployStack : Stack
             DisplayName = "application-registration-test"
         });
 
-        var contributor = RoleDefinition.Get("Contributor", "b24988ac-6180-42a0-ab88-20f7382dd24c");
+        var contributor = Authorization.Get("Contributor", "b24988ac-6180-42a0-ab88-20f7382dd24c");
 
-        //var test = GetRoleDefinition.Invoke(new GetRoleDefinitionInvokeArgs {
+        //var contributor2 = GetRoleDefinition.InvokeAsync(new GetRoleDefinitionArgs
+        //{
         //    RoleDefinitionId = "b24988ac-6180-42a0-ab88-20f7382dd24c",
         //    Scope = resourceGroup.Id
         //});
+
+        //var contributorResult = contributor2.Result;
+
 
         var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
         {
