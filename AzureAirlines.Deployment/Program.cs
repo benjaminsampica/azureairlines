@@ -19,7 +19,7 @@ public class DeployStack : Stack
 
         var appreg = new Application("applicationregistration-sp", new ApplicationArgs
         {
-            DisplayName = "application-registration-test"
+            DisplayName = "application-registration-sp"
         });
 
         var sp = new ServicePrincipal("exampleServicePrincipal", new()
