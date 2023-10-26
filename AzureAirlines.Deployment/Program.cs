@@ -17,7 +17,8 @@ public class DeployStack : Stack
 
         var servicePrincipal = new ApplicationRegistration("applicationregistration-sp", new ApplicationRegistrationArgs
         {
-            DisplayName = "application-registration-test"
+            DisplayName = "application-registration-test",
+
         });
 
         //var contributor2 = GetRoleDefinition.InvokeAsync(new GetRoleDefinitionArgs
@@ -32,7 +33,8 @@ public class DeployStack : Stack
         {
             RoleDefinitionId = "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", // Contributor role ID
             PrincipalId = servicePrincipal.ObjectId,
-            Scope = resourceGroup.Id
+            Scope = resourceGroup.Id,
+            PrincipalType = "Service Principal"
         });
     }
 }
