@@ -28,7 +28,7 @@ jobs:
     - uses: pulumi/actions@v3
       with:
         command: preview
-        stack-name: dev
+        stack-name: benjaminsampica/azure-airlines/dev
       env:
         PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
     - name: Login to Azure
