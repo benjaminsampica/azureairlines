@@ -52,6 +52,16 @@
 
     <button class="btn btn-lg btn-primary mt-1" disabled="@_model.IsCreateDisabled">Create</button>
 
+    <div>
+        @if (_latestStatus == "SUCCESS")
+        {
+            <span class="bi bi-check text-success"></span> @:Azure Resources Created!
+        }
+        else if (_latestStatus is { })
+        {
+            <div class="spinner-border text-primary" role="status">Working...</div>
+        }
+    </div>
     <hr />
 
     <h3>
@@ -103,14 +113,15 @@
             while (true)
             {
                 var response = await GitHubClient.PostAsync(GitHubApi.EndpointUrl, statusQuery);
-                var statusJson = await response.Content.ReadFromJsonAsync<dynamic>()!;
+                var statusJson = await response.Content.ReadFromJsonAsync<Rootobject>()!;
 
                 _latestStatus = statusJson.data.node.runs.nodes[0].checkSuite.conclusion;
+
+                await InvokeAsync(StateHasChanged);
 
                 Thread.Sleep(5000);
             }
         });
-        _statusThread.Start();
 
         return base.OnInitializedAsync();
     }
@@ -127,6 +138,8 @@
 
         var gitAction = new GitAction();
         await gitAction.UploadFileAsync(pulumiStack, _model.AppName);
+
+        _statusThread!.Start();
     }
 
     class CreateAzureResourceModel
