@@ -24,7 +24,7 @@
 </EditForm>
 
 @code {
-    [Inject] public HttpClient Client { get; set; } = default!;
+    [Inject] public IHttpClientFactory ClientFactory { get; set; } = default!;
     readonly CreateAzureResourceModel _model = new();
 
     async Task ValidFormSubmitted(EditContext editContext)
@@ -39,6 +39,8 @@
 
         // TODO call github api
 
+
+        var client = ClientFactory.CreateClient("GitHub");
     }
 
     class CreateAzureResourceModel
