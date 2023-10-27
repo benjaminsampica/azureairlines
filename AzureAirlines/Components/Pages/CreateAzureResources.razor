@@ -103,7 +103,9 @@
             while (true)
             {
                 var response = await GitHubClient.PostAsync(GitHubApi.EndpointUrl, statusQuery);
-                var statusJson = await response.Content.ReadAsStringAsync();
+                var statusJson = await response.Content.ReadFromJsonAsync<dynamic>()!;
+
+                _latestStatus = statusJson.data.node.runs.nodes[0].checkSuite.conclusion;
 
                 Thread.Sleep(5000);
             }
