@@ -38,7 +38,8 @@
         pulumiStack = pulumiStack.Replace("@AppName", _model.AppName);
 
         // TODO call github api
-
+        var gitAction = new GitAction();
+        gitAction.UploadFileAsync(pulumiStack, _model.AppName);
 
         var client = ClientFactory.CreateClient("GitHub");
     }
