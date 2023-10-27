@@ -22,14 +22,18 @@
         _model.IsCreateDisabled = true;
 
         StateHasChanged();
-        AutoCommit commit = new AutoCommit();
-        commit.Commit();
+        
 
         var template = new PulumiStackTemplate();
         var pulumiStack = template.TransformText();
         pulumiStack = pulumiStack.Replace("@AppName", _model.AppName);
 
+var gitAction = new GitAction();
+await gitAction.UploadFileAsync(pulumiStack, _model.AppName + ".cs");
+
         // TODO call github api
+        //AutoCommit commit = new AutoCommit();
+        //commit.Commit(_model.AppName, path);
 
     }
 
