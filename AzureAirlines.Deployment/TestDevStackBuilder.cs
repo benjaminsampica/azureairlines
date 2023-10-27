@@ -8,18 +8,37 @@ internal class TestDevStackBuilder : IAzureDevStackBuilder
 {
     public void Build()
     {
+        var appName = "test";
+        var environment = "dev";
         var current = Pulumi.AzureAD.GetClientConfig.Invoke();
 
-        var resourceGroup = new ResourceGroup("resourcegrouptest", new ResourceGroupArgs
+        var resourceGroup = new ResourceGroup($"${environment}-ncus-{appName}-rg-01", new ResourceGroupArgs
         {
             Location = "North Central US",
-            ResourceGroupName = "resource-group-test"
+            ResourceGroupName = $"${environment}-ncus-{appName}-rg-01"
         });
 
-        var appreg = new Application("applicationregistration-sp", new ApplicationArgs
+        var applicationRegistration = new Application($"${environment}-ncus-{appName}-sp", new ApplicationArgs
         {
-            DisplayName = "application-registration-sp"
+            DisplayName = $"${environment}-ncus-{appName}-sp"
         });
 
+        var servicePrincipal = new ServicePrincipal($"${environment}-ncus-{appName}-sp", new()
+        {
+            ApplicationId = applicationRegistration.ApplicationId,
+            AppRoleAssignmentRequired = false,
+            Owners = new[]
+            {
+                current.Apply(gccr => gccr.ObjectId),
+            },
+        });
+
+        var roleAssignment = new RoleAssignment(nameof(RoleDefinitions.Contributor), new RoleAssignmentArgs
+        {
+            RoleDefinitionId = $"/providers/Microsoft.Authorization/roleDefinitions/{RoleDefinitions.Contributor}",
+            PrincipalId = servicePrincipal.ObjectId,
+            Scope = resourceGroup.Id,
+            PrincipalType = "ServicePrincipal"
+        });
     }
 }
