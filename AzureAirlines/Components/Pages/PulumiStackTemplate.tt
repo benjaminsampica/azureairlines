@@ -44,7 +44,7 @@ internal class TestDevStackBuilder : IAzureDevStackBuilder
 
         var federatedCredentials = new ApplicationFederatedIdentityCredential("deployment-connection", new ApplicationFederatedIdentityCredentialArgs
         {
-            ApplicationId = applicationRegistration1.ApplicationId,
+            ApplicationObjectId = applicationRegistration1.ObjectId,
             Subject = "repo:benjaminsampica/azureairlines:ref:refs/heads/main",
             Issuer = "https://token.actions.githubusercontent.com",
             Audiences = ["api://AzureADTokenExchange"],

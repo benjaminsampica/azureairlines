@@ -46,23 +46,23 @@ namespace AzureAirlines.Components.Pages
                     "   current.Apply(gccr => gccr.ObjectId),\r\n            },\r\n        });\r\n\r\n       " +
                     " var federatedCredentials = new ApplicationFederatedIdentityCredential(\"deployme" +
                     "nt-connection\", new ApplicationFederatedIdentityCredentialArgs\r\n        {\r\n     " +
-                    "       ApplicationId = applicationRegistration1.ApplicationId,\r\n            Subj" +
-                    "ect = \"repo:benjaminsampica/azureairlines:ref:refs/heads/main\",\r\n            Iss" +
-                    "uer = \"https://token.actions.githubusercontent.com\",\r\n            Audiences = [\"" +
-                    "api://AzureADTokenExchange\"],\r\n            DisplayName = \"deployment-connection\"" +
-                    "\r\n        });\r\n\r\n        var roleAssignment = new RoleAssignment(nameof(RoleDefi" +
-                    "nitions.Contributor), new RoleAssignmentArgs\r\n        {\r\n            RoleDefinit" +
-                    "ionId = $\"/providers/Microsoft.Authorization/roleDefinitions/{RoleDefinitions.Co" +
-                    "ntributor}\",\r\n            PrincipalId = servicePrincipal1.ObjectId,\r\n           " +
-                    " Scope = resourceGroup.Id,\r\n            PrincipalType = \"ServicePrincipal\"\r\n    " +
-                    "    });\r\n\r\n        var applicationRegistration2 = new Application($\"{environment" +
-                    "}-ncus-{appName}-app\", new ApplicationArgs\r\n        {\r\n            DisplayName =" +
-                    " $\"{environment}-ncus-{appName}-app\"\r\n        });\r\n\r\n        var servicePrincipa" +
-                    "l2 = new ServicePrincipal($\"{environment}-ncus-{appName}-app\", new()\r\n        {\r" +
-                    "\n            ApplicationId = applicationRegistration2.ApplicationId,\r\n          " +
-                    "  AppRoleAssignmentRequired = false,\r\n            Owners = new[]\r\n            {\r" +
-                    "\n                current.Apply(gccr => gccr.ObjectId),\r\n            },\r\n        " +
-                    "});\r\n    }\r\n}");
+                    "       ApplicationObjectId = applicationRegistration1.ObjectId,\r\n            Sub" +
+                    "ject = \"repo:benjaminsampica/azureairlines:ref:refs/heads/main\",\r\n            Is" +
+                    "suer = \"https://token.actions.githubusercontent.com\",\r\n            Audiences = [" +
+                    "\"api://AzureADTokenExchange\"],\r\n            DisplayName = \"deployment-connection" +
+                    "\"\r\n        });\r\n\r\n        var roleAssignment = new RoleAssignment(nameof(RoleDef" +
+                    "initions.Contributor), new RoleAssignmentArgs\r\n        {\r\n            RoleDefini" +
+                    "tionId = $\"/providers/Microsoft.Authorization/roleDefinitions/{RoleDefinitions.C" +
+                    "ontributor}\",\r\n            PrincipalId = servicePrincipal1.ObjectId,\r\n          " +
+                    "  Scope = resourceGroup.Id,\r\n            PrincipalType = \"ServicePrincipal\"\r\n   " +
+                    "     });\r\n\r\n        var applicationRegistration2 = new Application($\"{environmen" +
+                    "t}-ncus-{appName}-app\", new ApplicationArgs\r\n        {\r\n            DisplayName " +
+                    "= $\"{environment}-ncus-{appName}-app\"\r\n        });\r\n\r\n        var servicePrincip" +
+                    "al2 = new ServicePrincipal($\"{environment}-ncus-{appName}-app\", new()\r\n        {" +
+                    "\r\n            ApplicationId = applicationRegistration2.ApplicationId,\r\n         " +
+                    "   AppRoleAssignmentRequired = false,\r\n            Owners = new[]\r\n            {" +
+                    "\r\n                current.Apply(gccr => gccr.ObjectId),\r\n            },\r\n       " +
+                    " });\r\n    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
