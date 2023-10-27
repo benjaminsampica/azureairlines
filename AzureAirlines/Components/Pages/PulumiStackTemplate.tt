@@ -20,7 +20,7 @@ internal class @AppNameDevStackBuilder : IAzureDevStackBuilder
             { "OwnerEmailDL", "@GroupTeamEmailAddress" },
         };
 
-        var resourceGroup = new ResourceGroup($"{environment}-ncus-{appName}-rg-01", new ResourceGroupArgs
+                var resourceGroup = new ResourceGroup($"{environment}-ncus-{appName}-rg-01", new ResourceGroupArgs
         {
             Location = "North Central US",
             ResourceGroupName = $"{environment}-ncus-{appName}-rg-01",
@@ -42,7 +42,7 @@ internal class @AppNameDevStackBuilder : IAzureDevStackBuilder
             },
         });
 
-        var federatedCredentials = new ApplicationFederatedIdentityCredential("deployment-connection", new ApplicationFederatedIdentityCredentialArgs
+        var federatedCredentials = new ApplicationFederatedIdentityCredential($"{appName}-deployment-connection", new ApplicationFederatedIdentityCredentialArgs
         {
             ApplicationObjectId = applicationRegistration1.ObjectId,
             Subject = "repo:benjaminsampica/azureairlines:ref:refs/heads/main",
@@ -51,7 +51,7 @@ internal class @AppNameDevStackBuilder : IAzureDevStackBuilder
             DisplayName = "deployment-connection"
         });
 
-        var roleAssignment = new RoleAssignment(nameof(RoleDefinitions.Contributor), new RoleAssignmentArgs
+        var roleAssignment = new RoleAssignment($"{environment}-ncus-{appName}-sp-{RoleDefinitions.Contributor}", new RoleAssignmentArgs
         {
             RoleDefinitionId = $"/providers/Microsoft.Authorization/roleDefinitions/{RoleDefinitions.Contributor}",
             PrincipalId = servicePrincipal1.ObjectId,
