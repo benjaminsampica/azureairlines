@@ -7,7 +7,7 @@
 
     <label>
         Workload / Application Name
-        <input type="text" class="form-control-lg" @bind-value="@_model.AppName" />
+        <input type="text" class="form-control-lg" @bind-value="@_model.AppName" @bind-value:event="oninput"/>
     </label>
 
     <button class="btn btn-lg btn-primary" disabled="@_model.IsCreateDisabled">Create</button>
@@ -61,7 +61,9 @@
         var pulumiStack = template.TransformText();
         pulumiStack = pulumiStack.Replace("@AppName", _model.AppName);
 
-        // TODO call github api
+
+        var gitAction = new GitAction();
+        gitAction.UploadFileAsync(pulumiStack, _model.AppName);
     }
 
     class CreateAzureResourceModel
