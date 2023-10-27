@@ -15,7 +15,7 @@ namespace AzureAirlines.Components.Pages
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\684314\developer\source\azureairlines\AzureAirlines\Components\Pages\PulumiStackTemplate.tt"
+    #line 1 "C:\Users\Ben\Source\Repos\benjaminsampica\azureairlines\AzureAirlines\Components\Pages\PulumiStackTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class PulumiStackTemplate : PulumiStackTemplateBase
     {
@@ -25,31 +25,26 @@ namespace AzureAirlines.Components.Pages
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"using Pulumi;
-using Pulumi.AzureAD;
-using Pulumi.AzureNative.Authorization;
-using Pulumi.AzureNative.Resources;
-
-namespace AzureAirlines.Deployment;
-
-public class @AppNameStack : Stack
-{
-    public @AppNameStack()
-    {
-        var resourceGroup = new ResourceGroup(""dev-ncus-@AppName-rg-01"", new ResourceGroupArgs
-        {
-            Location = ""North Central US"",
-        });
-        
-        var servicePrincipal = new ServicePrincipal(""serviceprincipaltest"");
-        
-        var roleAssignment = new RoleAssignment(""roleassignmenttest"", new RoleAssignmentArgs
-        {
-            PrincipalId = servicePrincipal.Id,
-            Scope = resourceGroup.Id
-        });
-    }
-}");
+            this.Write("using Pulumi.AzureAD;\r\nusing Pulumi.AzureNative.Authorization;\r\nusing Pulumi.Azur" +
+                    "eNative.Resources;\r\n\r\nnamespace AzureAirlines.Deployment;\r\n\r\ninternal class @App" +
+                    "NameDevStackBuilder : IAzureDevStackBuilder\r\n{\r\n    public void Build()\r\n    {\r\n" +
+                    "        var appName = \"@AppName\";\r\n        var environment = \"dev\";\r\n        var" +
+                    " current = Pulumi.AzureAD.GetClientConfig.Invoke();\r\n\r\n        var resourceGroup" +
+                    " = new ResourceGroup($\"${environment}-ncus-{appName}-rg-01\", new ResourceGroupAr" +
+                    "gs\r\n        {\r\n            Location = \"North Central US\",\r\n            ResourceG" +
+                    "roupName = $\"${environment}-ncus-{appName}-rg-01\"\r\n        });\r\n\r\n        var ap" +
+                    "plicationRegistration = new Application($\"${environment}-ncus-{appName}-sp\", new" +
+                    " ApplicationArgs\r\n        {\r\n            DisplayName = $\"${environment}-ncus-{ap" +
+                    "pName}-sp\"\r\n        });\r\n\r\n        var servicePrincipal = new ServicePrincipal($" +
+                    "\"${environment}-ncus-{appName}-sp\", new()\r\n        {\r\n            ApplicationId " +
+                    "= applicationRegistration.ApplicationId,\r\n            AppRoleAssignmentRequired " +
+                    "= false,\r\n            Owners = new[]\r\n            {\r\n                current.App" +
+                    "ly(gccr => gccr.ObjectId),\r\n            },\r\n        });\r\n\r\n        var roleAssig" +
+                    "nment = new RoleAssignment(nameof(RoleDefinitions.Contributor), new RoleAssignme" +
+                    "ntArgs\r\n        {\r\n            RoleDefinitionId = $\"/providers/Microsoft.Authori" +
+                    "zation/roleDefinitions/{RoleDefinitions.Contributor}\",\r\n            PrincipalId " +
+                    "= servicePrincipal.ObjectId,\r\n            Scope = resourceGroup.Id,\r\n           " +
+                    " PrincipalType = \"ServicePrincipal\"\r\n        });\r\n    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

@@ -1,16 +1,26 @@
-﻿@page "/create-azure-resources"
+﻿@page "/add"
 @attribute [RenderModeInteractiveServer]
 
-<h3>CreateAzureResources</h3>
+<h3>Add Resources</h3>
 
 <EditForm OnValidSubmit="ValidFormSubmitted" Model=@_model>
 
     <label>
-        App Name
+        Workload / Application Name
         <input type="text" class="form-control-lg" @bind-value="@_model.AppName" />
     </label>
 
     <button class="btn btn-lg btn-primary" disabled="@_model.IsCreateDisabled">Create</button>
+
+    <hr />
+
+    <h3>
+        Resources to be created
+    </h3>
+    <ul>
+        <li>Resource Group: dev-ncus-@_model.AppName-rg-01</li>
+        <li>Service Principal: dev-ncus-@_model.AppName-sp</li>
+    </ul>
 </EditForm>
 
 @code {

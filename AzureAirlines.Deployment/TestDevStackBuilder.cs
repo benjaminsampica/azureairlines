@@ -4,18 +4,18 @@ using Pulumi.AzureNative.Resources;
 
 namespace AzureAirlines.Deployment;
 
-internal class @AppNameDevStackBuilder : IAzureDevStackBuilder
+internal class TestDevStackBuilder : IAzureDevStackBuilder
 {
     public void Build()
     {
-        var appName = "@AppName";
+        var appName = "test";
         var environment = "dev";
         var current = Pulumi.AzureAD.GetClientConfig.Invoke();
 
         var resourceGroup = new ResourceGroup($"{environment}-ncus-{appName}-rg-01", new ResourceGroupArgs
         {
             Location = "North Central US",
-            ResourceGroupName = $"${environment}-ncus-{appName}-rg-01"
+            ResourceGroupName = $"{environment}-ncus-{appName}-rg-01"
         });
 
         var applicationRegistration = new Application($"{environment}-ncus-{appName}-sp", new ApplicationArgs

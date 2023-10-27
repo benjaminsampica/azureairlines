@@ -1,29 +1,4 @@
-﻿using Pulumi;
-using Pulumi.AzureAD;
-using Pulumi.AzureNative.Authorization;
-using Pulumi.AzureNative.Resources;
+﻿using AzureAirlines.Deployment;
 
-await Pulumi.Deployment.RunAsync<DeployStack>();
+await Pulumi.Deployment.RunAsync<DevStack>();
 
-public class DeployStack : Stack
-{
-    public DeployStack()
-    {
-        var resourceGroup = new ResourceGroup("resourcegrouptest", new ResourceGroupArgs
-        {
-            Location = "North Central US",
-            ResourceGroupName = "resource-group-test"
-        });
-
-        var servicePrincipal = new ApplicationRegistration("applicationregistration-sp", new ApplicationRegistrationArgs
-        {
-
-        });
-
-        var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
-        {
-            PrincipalId = servicePrincipal.Id,
-            Scope = resourceGroup.Id
-        });
-    }
-}
