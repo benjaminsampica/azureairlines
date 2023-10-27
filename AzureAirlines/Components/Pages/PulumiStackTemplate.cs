@@ -15,7 +15,7 @@ namespace AzureAirlines.Components.Pages
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\684314\developer\source\azureairlines\AzureAirlines\Components\Pages\PulumiStackTemplate.tt"
+    #line 1 "C:\Users\Ben\Source\Repos\benjaminsampica\azureairlines\AzureAirlines\Components\Pages\PulumiStackTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class PulumiStackTemplate : PulumiStackTemplateBase
     {
@@ -25,28 +25,45 @@ namespace AzureAirlines.Components.Pages
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"using Pulumi;
-using Pulumi.AzureAD;
+            this.Write(@"using Pulumi.AzureAD;
 using Pulumi.AzureNative.Authorization;
 using Pulumi.AzureNative.Resources;
 
 namespace AzureAirlines.Deployment;
 
-public class @AppNameStack : Stack
+internal class Test : IAzureDevStackBuilder
 {
-    public @AppNameStack()
+    public void Build()
     {
+        var current = Pulumi.AzureAD.GetClientConfig.Invoke();
+
         var resourceGroup = new ResourceGroup(""dev-ncus-@AppName-rg-01"", new ResourceGroupArgs
         {
             Location = ""North Central US"",
+            ResourceGroupName = ""@AppName""
         });
-        
-        var servicePrincipal = new ServicePrincipal(""serviceprincipaltest"");
-        
-        var roleAssignment = new RoleAssignment(""roleassignmenttest"", new RoleAssignmentArgs
+
+        var appreg = new Application(""dev-ncus-@AppName-sp"", new ApplicationArgs
         {
-            PrincipalId = servicePrincipal.Id,
-            Scope = resourceGroup.Id
+            DisplayName = ""application-registration-sp""
+        });
+
+        var sp = new ServicePrincipal(""dev-ncus-@AppName-sp"", new()
+        {
+            ApplicationId = appreg.ApplicationId,
+            AppRoleAssignmentRequired = false,
+            Owners = new[]
+            {
+                current.Apply(gccr => gccr.ObjectId),
+            },
+        });
+
+        var roleAssignment = new RoleAssignment(""Contributor"", new RoleAssignmentArgs
+        {
+            RoleDefinitionId = ""/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"",
+            PrincipalId = sp.ObjectId,
+            Scope = resourceGroup.Id,
+            PrincipalType = ""ServicePrincipal""
         });
     }
 }");

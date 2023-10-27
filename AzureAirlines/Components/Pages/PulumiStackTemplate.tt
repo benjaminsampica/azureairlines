@@ -1,25 +1,42 @@
-﻿using Pulumi;
-using Pulumi.AzureAD;
+﻿using Pulumi.AzureAD;
 using Pulumi.AzureNative.Authorization;
 using Pulumi.AzureNative.Resources;
 
 namespace AzureAirlines.Deployment;
 
-public class @AppNameStack : Stack
+internal class Test : IAzureDevStackBuilder
 {
-    public @AppNameStack()
+    public void Build()
     {
+        var current = Pulumi.AzureAD.GetClientConfig.Invoke();
+
         var resourceGroup = new ResourceGroup("dev-ncus-@AppName-rg-01", new ResourceGroupArgs
         {
             Location = "North Central US",
+            ResourceGroupName = "@AppName"
         });
-        
-        var servicePrincipal = new ServicePrincipal("serviceprincipaltest");
-        
-        var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
+
+        var appreg = new Application("dev-ncus-@AppName-sp", new ApplicationArgs
         {
-            PrincipalId = servicePrincipal.Id,
-            Scope = resourceGroup.Id
+            DisplayName = "application-registration-sp"
+        });
+
+        var sp = new ServicePrincipal("dev-ncus-@AppName-sp", new()
+        {
+            ApplicationId = appreg.ApplicationId,
+            AppRoleAssignmentRequired = false,
+            Owners = new[]
+            {
+                current.Apply(gccr => gccr.ObjectId),
+            },
+        });
+
+        var roleAssignment = new RoleAssignment("Contributor", new RoleAssignmentArgs
+        {
+            RoleDefinitionId = "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+            PrincipalId = sp.ObjectId,
+            Scope = resourceGroup.Id,
+            PrincipalType = "ServicePrincipal"
         });
     }
 }
