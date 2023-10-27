@@ -15,12 +15,12 @@ internal class TestDevStackBuilder : IAzureDevStackBuilder
         var resourceGroup = new ResourceGroup($"{environment}-ncus-{appName}-rg-01", new ResourceGroupArgs
         {
             Location = "North Central US",
-            ResourceGroupName = $"${environment}-ncus-{appName}-rg-01"
+            ResourceGroupName = $"{environment}-ncus-{appName}-rg-01"
         });
 
         var applicationRegistration = new Application($"{environment}-ncus-{appName}-sp", new ApplicationArgs
         {
-            DisplayName = $"${environment}-ncus-{appName}-sp"
+            DisplayName = $"{environment}-ncus-{appName}-sp"
         });
 
         var servicePrincipal = new ServicePrincipal($"{environment}-ncus-{appName}-sp", new()
