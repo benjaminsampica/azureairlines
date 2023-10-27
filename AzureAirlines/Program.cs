@@ -1,5 +1,6 @@
 using AzureAirlines;
 using AzureAirlines.Components;
+using AzureAirlines.Components.Pages;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("AzureAirlines"));
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
+
+builder.Services.AddHttpClient<CreateAzureResources>(client =>
+{
+    client.BaseAddress = new("https://api.github.com/graphql");
+    client.DefaultRequestHeaders.Add("Bearer", "");
 });
 
 var app = builder.Build();

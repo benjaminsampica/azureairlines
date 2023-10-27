@@ -14,7 +14,7 @@
 </EditForm>
 
 @code {
-
+    [Inject] public HttpClient Client { get; set; } = default!;
     readonly CreateAzureResourceModel _model = new();
 
     async Task ValidFormSubmitted(EditContext editContext)
