@@ -1,5 +1,6 @@
 using AzureAirlines;
 using AzureAirlines.Components;
+using AzureAirlines.Components.Pages;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +26,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddHttpClient("GitHub", client =>
 {
     client.BaseAddress = new("https://api.github.com/graphql");
-    client.DefaultRequestHeaders.Add("Bearer", "");
+    client.DefaultRequestHeaders.Add("User-Agent", "Azure-Airlines");
+    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {GitHubApi.ApiToken}");
 });
 
 var app = builder.Build();

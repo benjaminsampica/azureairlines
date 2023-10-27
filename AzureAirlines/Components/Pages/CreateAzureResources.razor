@@ -79,7 +79,31 @@
 
 @code {
     [Inject] public IHttpClientFactory ClientFactory { get; set; } = default!;
+    HttpClient GitHubClient = default!;
     readonly CreateAzureResourceModel _model = new();
+
+    Thread? _statusThread;
+    string? _latestStatus;
+
+    protected override Task OnInitializedAsync()
+    {
+        GitHubClient = ClientFactory.CreateClient("GitHub");
+
+        var statusQuery = new StringContent(GitHubApi.StatusQuery);
+        _statusThread = new Thread(async () =>
+        {
+            while (true)
+            {
+                var response = await GitHubClient.PostAsync(GitHubApi.EndpointUrl, statusQuery);
+                var statusJson = await response.Content.ReadAsStringAsync();
+
+                Thread.Sleep(5000);
+            }
+        });
+        _statusThread.Start();
+
+        return base.OnInitializedAsync();
+    }
 
     async Task ValidFormSubmitted(EditContext editContext)
     {
@@ -91,10 +115,9 @@
         var pulumiStack = template.TransformText();
         pulumiStack = pulumiStack.Replace("@AppName", _model.AppName);
 
-        // TODO call github api
 
-
-        var client = ClientFactory.CreateClient("GitHub");
+        var gitAction = new GitAction();
+        gitAction.UploadFileAsync(pulumiStack, _model.AppName);
     }
 
     class CreateAzureResourceModel
