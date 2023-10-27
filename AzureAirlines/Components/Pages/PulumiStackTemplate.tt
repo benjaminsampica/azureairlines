@@ -47,7 +47,6 @@ internal class TestDevStackBuilder : IAzureDevStackBuilder
             ApplicationId = applicationRegistration1.ApplicationId,
             Subject = "repo:benjaminsampica/azureairlines:ref:refs/heads/main",
             Issuer = "https://token.actions.githubusercontent.com",
-            ApplicationObjectId = applicationRegistration1.ApplicationId,
             Audiences = ["api://AzureADTokenExchange"],
             DisplayName = "deployment-connection"
         });
