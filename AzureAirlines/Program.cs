@@ -22,6 +22,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
+builder.Services.AddHttpClient("GitHub", client =>
+{
+    client.BaseAddress = new("https://api.github.com/graphql");
+    client.DefaultRequestHeaders.Add("Bearer", "");
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
