@@ -1,7 +1,5 @@
 ﻿using Pulumi;
-using Pulumi.AzureAD;
-using Pulumi.AzureNative.Authorization;
-using Pulumi.AzureNative.Resources;
+using System.Reflection;
 
 namespace AzureAirlines.Deployment;
 
@@ -9,35 +7,14 @@ public class DevStack : Stack
 {
     public DevStack()
     {
-        var current = Pulumi.AzureAD.GetClientConfig.Invoke();
+        var stackBuildersClasses = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(t => t.GetInterfaces().Any(i => i.Name == nameof(IAzureDevStackBuilder)));
 
-        var resourceGroup = new ResourceGroup("resourcegrouptest", new ResourceGroupArgs
+        foreach(var stackBuilderClass in stackBuildersClasses)
         {
-            Location = "North Central US",
-            ResourceGroupName = "resource-group-test"
-        });
+            var stackBuilder = Activator.CreateInstance(stackBuilderClass)! as IAzureDevStackBuilder;
 
-        var appreg = new Application("applicationregistration-sp", new ApplicationArgs
-        {
-            DisplayName = "application-registration-sp"
-        });
-
-        var sp = new ServicePrincipal("exampleServicePrincipal", new()
-        {
-            ApplicationId = appreg.ApplicationId,
-            AppRoleAssignmentRequired = false,
-            Owners = new[]
-            {
-                current.Apply(gccr => gccr.ObjectId),
-            },
-        });
-
-        var roleAssignment = new RoleAssignment("roleassignmenttest", new RoleAssignmentArgs
-        {
-            RoleDefinitionId = "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", // Contributor role ID
-            PrincipalId = sp.ObjectId,
-            Scope = resourceGroup.Id,
-            PrincipalType = "ServicePrincipal"
-        });
+            stackBuilder!.Build();
+        }
     }
 }
