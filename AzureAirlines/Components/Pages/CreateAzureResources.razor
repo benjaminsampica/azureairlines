@@ -1,4 +1,5 @@
 ﻿@page "/add"
+@using System.Text
 @attribute [RenderModeInteractiveServer]
 
 <h3>Add Resources</h3>
@@ -35,7 +36,7 @@
     {
         GitHubClient = ClientFactory.CreateClient("GitHub");
 
-        var statusQuery = new StringContent(GitHubApi.StatusQuery);
+        var statusQuery = new StringContent(GitHubApi.StatusQuery, Encoding.UTF8, "application/json");
         _statusThread = new Thread(async () =>
         {
             while (true)
