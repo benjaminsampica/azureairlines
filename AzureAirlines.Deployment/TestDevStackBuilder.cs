@@ -51,7 +51,7 @@ internal class TestDevStackBuilder : IAzureDevStackBuilder
             DisplayName = "deployment-connection"
         });
 
-        var roleAssignment = new RoleAssignment(nameof(RoleDefinitions.Contributor), new RoleAssignmentArgs
+        var roleAssignment = new RoleAssignment($"{environment}-ncus-{appName}-sp-{RoleDefinitions.Contributor}", new RoleAssignmentArgs
         {
             RoleDefinitionId = $"/providers/Microsoft.Authorization/roleDefinitions/{RoleDefinitions.Contributor}",
             PrincipalId = servicePrincipal1.ObjectId,
