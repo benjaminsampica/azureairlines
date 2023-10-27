@@ -57,17 +57,27 @@
             <button class="btn btn-lg btn-primary my-2" disabled="@_model.IsCreateDisabled">Create</button>
 
             <h4 class="mt-2">
-                @if (_latestStatus == "COMPLETED")
+                @if (_latestStatus == "COMPLETED" && _latestConclusion == "SUCCESS")
                 {
                     <span class="text-success">
-                    <span class="bi bi-check"></span> Azure Resources Created!</span>
+                        Successfully created Azure resources!
+                        <span class="bi bi-emoji-heart-eyes"></span> 
+                    </span>
 
+                }
+                else if (_latestStatus == "COMPLETED" && _latestConclusion == "FAILURE")
+                {
+                    <span class="text-danger">
+                        Failed to create Azure resources!
+                        <span class="bi bi-emoji-tear"></span>
+                    </span>
                 }
                 else if (_latestStatus is not null)
                 {
                     <span class="text-primary">
                         <span class="spinner-border" role="status"></span>
-                    Working...</span>
+                        Working...
+                    </span>
                 }
             </h4>
         </EditForm>
@@ -112,6 +122,7 @@
 
     System.Timers.Timer? _statusTimer;
     string? _latestStatus;
+    string? _latestConclusion;
 
     protected override Task OnInitializedAsync()
     {
@@ -126,6 +137,7 @@
             var statusJson = await response.Content.ReadFromJsonAsync<Rootobject>()!;
 
             _latestStatus = statusJson.data.node.runs.nodes[0].checkSuite.status;
+            _latestConclusion = statusJson.data.node.runs.nodes[0].checkSuite.conclusion;
 
             await InvokeAsync(StateHasChanged);
         };
