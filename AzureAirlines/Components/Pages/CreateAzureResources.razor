@@ -7,7 +7,7 @@
 
     <label>
         Workload / Application Name
-        <input type="text" class="form-control-lg" @bind-value="@_model.AppName" />
+        <input type="text" class="form-control-lg" @bind-value="@_model.AppName" @bind-value:event="oninput"/>
     </label>
 
     <button class="btn btn-lg btn-primary" disabled="@_model.IsCreateDisabled">Create</button>
