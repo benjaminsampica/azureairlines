@@ -20,7 +20,7 @@ internal class @AppNameDevStackBuilder : IAzureDevStackBuilder
             { "OwnerEmailDL", "@GroupTeamEmailAddress" },
         };
 
-                var resourceGroup = new ResourceGroup($"{environment}-ncus-{appName}-rg-01", new ResourceGroupArgs
+        var resourceGroup = new ResourceGroup($"{environment}-ncus-{appName}-rg-01", new ResourceGroupArgs
         {
             Location = "North Central US",
             ResourceGroupName = $"{environment}-ncus-{appName}-rg-01",
