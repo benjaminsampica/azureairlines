@@ -17,7 +17,7 @@ internal class TestDevStackBuilder : IAzureDevStackBuilder
             { "Cost Center", "CostCenterTest" },
             { "Environment", "EnvironmentTest" },
             { "Owner", "OwnerTest" },
-            { "Group/Team Email address", "GroupTeamEmailAddressTest" },
+            { "OwnerEmailDL", "OwnerEmailDLTest" },
         };
 
         var resourceGroup = new ResourceGroup($"{environment}-ncus-{appName}-rg-01", new ResourceGroupArgs
