@@ -137,7 +137,7 @@
         pulumiStack = pulumiStack.Replace("@AppName", _model.AppName);
 
         var gitAction = new GitAction();
-        await gitAction.UploadFileAsync(pulumiStack, _model.AppName);
+        await gitAction.UploadFileAsync(pulumiStack, _model.AppName + ".cs");
 
         _statusThread!.Start();
     }

@@ -16,7 +16,7 @@ public class GitAction
         var repo = await github.Repository.Get(_owner, _repoName);
         if (repo != null)
         {
-            string filePath = $"{_owner}//{_repoName}//AzureAirlines//PulumiStackFiles//{fileName}";
+            string filePath = $"AzureAirlines/PulumiStackFiles/{fileName}";
 
             var createFileRequest = new CreateFileRequest("new file " + fileName, fileContent, "main", true);
             _ = await github.Repository.Content.CreateFile(owner: _owner, _repoName, filePath, createFileRequest);
