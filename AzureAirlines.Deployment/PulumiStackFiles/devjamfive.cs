@@ -8,7 +8,7 @@ internal class TestDevStackBuilder : IAzureDevStackBuilder
 {
     public void Build()
     {
-        var appName = "devjam5";
+        var appName = "devjamfive";
         var environment = "dev";
         var current = Pulumi.AzureAD.GetClientConfig.Invoke();
         var tags = new Dictionary<string, string>()
