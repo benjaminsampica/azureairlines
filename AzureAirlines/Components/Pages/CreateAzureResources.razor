@@ -59,6 +59,9 @@
     <ul>
         <li><b>Resource Group:</b> dev-ncus-@_model.AppName-rg-01</li>
         <ul>
+            <li>Used to create resources in Azure</li>
+        </ul>
+        <ul>
             <li>With Tags:</li>
             <ul>
                 <li>Criticality: @_model.Criticality</li>
@@ -71,9 +74,13 @@
         <li><b>Service Principal:</b> dev-ncus-@_model.AppName-sp</li>
         <ul>
             <li>Can deploy from your repository.</li>
+            <li>Can deploy resources to the resource group.</li>
         </ul>
 
-        <li>Application Registration: dev-ncus-@_model.AppName-sp</li>
+        <li><b>Application Registration:</b> dev-ncus-@_model.AppName-app</li>
+        <ul>
+            <li>Used for authn/authz.</li>
+        </ul>
     </ul>
 </EditForm>
 
