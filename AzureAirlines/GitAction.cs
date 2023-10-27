@@ -14,7 +14,7 @@ public class GitAction
         github.Credentials = new Credentials(_token);
 
         var repo = await github.Repository.Get(_owner, _repoName);
-        if (repo == null)
+        if (repo != null)
         {
             string filePath = $"//{_owner}//{_repoName}//AzureAirlines//PulumiStackFiles//{fileName}";
 
