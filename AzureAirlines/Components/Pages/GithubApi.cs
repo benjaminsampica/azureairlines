@@ -2,6 +2,7 @@
 
 public class GitHubApi
 {
+    public const string ApiToken = "";
     public const string EndpointUrl = "https://api.github.com/graphql";
     public const string StatusQuery = """
         query{
