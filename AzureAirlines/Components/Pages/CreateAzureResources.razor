@@ -1,127 +1,161 @@
 ﻿@page "/add"
 @using System.Text
+@using System.Timers
 @attribute [RenderModeInteractiveServer]
 
-<h3>Add Resources</h3>
+<h3>Create Resources</h3>
 
-<EditForm OnValidSubmit="ValidFormSubmitted" Model=@_model>
-    <div class="row">
-        <div class="col-4">
-            <label>
-                Workload / Application Name
-            </label>
-            <input type="text" class="form-control" @bind-value="@_model.AppName" @bind-value:event="oninput" />
-        </div>
+<div class="row">
+    <div class="col-6">
+
+        <EditForm OnValidSubmit="ValidFormSubmitted" Model=@_model>
+            <div class="row ">
+                <div class="col-6 my-2">
+                    <label>
+                        Workload / Application Name
+                    </label>
+                    <input type="text" class="form-control" placeholder="myapp" @bind-value="@_model.AppName" @bind-value:event="oninput" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <h5>Tags</h5>
+                </div>
+                <div class="col-6 mb-2">
+                    <label>
+                        Criticality
+                    </label>
+                    <select class="form-select w-75" @bind="@_model.Criticality">
+                        <option>Mission Critical</option>
+                        <option>Business Essential</option>
+                        <option>Business Core</option>
+                        <option>Business Supporting</option>
+                        <option>Not Critical</option>
+                    </select>
+                </div>
+                <div class="col-6 mb-2">
+                    <label>
+                        Cost Center
+                    </label>
+                    <select class="form-select w-75" @bind="@_model.CostCenter">
+                        <option>9064-Security</option>
+                        <option>9065-Digital Engineering</option>
+                        <option>9067-Operations</option>
+                        <option>9068-Infrastructure</option>
+                        <option>9069-Engineering</option>
+                        <option>9072-IT Architecture & Planning</option>
+                        <option>9073-Data&Analytics</option>
+                        <option>9074-CorporateSystems</option>
+                    </select>
+                </div>
+                <div class="col-6 mb-2">
+                    <label>
+                        Owner
+                    </label>
+                    <input type="text" class="form-control w-75" @bind-value="@_model.Owner" @bind-value:event="oninput" />
+                </div>
+                <div class="col-6 mb-2">
+                    <label>
+                        Owner Email
+                    </label>
+                    <input type="text" class="form-control w-75" @bind-value="@_model.OwnerEmailDL" @bind-value:event="oninput" />
+                </div>
+                <div class="col-6 mb-2">
+                    <label>
+                        Environment
+                    </label>
+                    <input type="text" class="form-control w-75" @bind-value="@_model.Environment" readonly="readonly" />
+                </div>
+            </div>
+
+            <button class="btn btn-lg btn-primary my-2" disabled="@_model.IsCreateDisabled">Create</button>
+
+            <h4 class="mt-2">
+                @if (_latestStatus == "COMPLETED" && _latestConclusion == "SUCCESS")
+                {
+                    <span class="text-success">
+                        Successfully created Azure resources!
+                        <span class="bi bi-emoji-heart-eyes"></span> 
+                    </span>
+
+                }
+                else if (_latestStatus == "COMPLETED" && _latestConclusion == "FAILURE")
+                {
+                    <span class="text-danger">
+                        Failed to create Azure resources!
+                        <span class="bi bi-emoji-tear"></span>
+                    </span>
+                }
+                else if (_latestStatus is not null)
+                {
+                    <span class="text-primary">
+                        <span class="spinner-border" role="status"></span>
+                        Working...
+                    </span>
+                }
+            </h4>
+        </EditForm>
     </div>
-    
-    <div class="row">
-        <div class="col-12">
-            <h5>Tags</h5>
-        </div>
-        <div class="col-6">
-            <label>
-                Criticality
-            </label>
-            <input type="text" class="form-control w-75" @bind-value="@_model.Criticality" @bind-value:event="oninput" />
-        </div>
-        <div class="col-6">
-            <label>
-                Cost Center
-            </label>
-            <input type="text" class="form-control w-75" @bind-value="@_model.CostCenter" @bind-value:event="oninput" />
-        </div>
-        <div class="col-6">
-            <label>
-                Owner
-            </label>
-            <input type="text" class="form-control w-75" @bind-value="@_model.Owner" @bind-value:event="oninput" />
-        </div>
-        <div class="col-6">
-            <label>
-                Owner Email
-            </label>
-            <input type="text" class="form-control w-75" @bind-value="@_model.OwnerEmailDL" @bind-value:event="oninput" />
-        </div>
-        <div class="col-6">
-            <label>
-                Environment
-            </label>
-            <input type="text" class="form-control w-75" @bind-value="@_model.Environment" readonly="readonly"/>
-        </div>
-    </div>
-
-    <button class="btn btn-lg btn-primary mt-1" disabled="@_model.IsCreateDisabled">Create</button>
-
-    <div>
-        @if (_latestStatus == "SUCCESS")
-        {
-            <span class="bi bi-check text-success"></span> @:Azure Resources Created!
-        }
-        else if (_latestStatus is { })
-        {
-            <div class="spinner-border text-primary" role="status">Working...</div>
-        }
-    </div>
-    <hr />
-
-    <h3>
-        Azure resources to be created
-    </h3>
-    <ul>
-        <li><b>Resource Group:</b> dev-ncus-@_model.AppName-rg-01</li>
+    <div class="col-6">
+        <h3>
+            Azure resources to be created
+        </h3>
         <ul>
-            <li>Used to create resources in Azure</li>
-        </ul>
-        <ul>
-            <li>With Tags:</li>
+            <li><b>Resource Group:</b> dev-ncus-@_model.AppName-rg-01</li>
             <ul>
-                <li>Criticality: @_model.Criticality</li>
-                <li>Cost Center: @_model.CostCenter</li>
-                <li>Environment: @_model.Environment</li>
-                <li>Owner: @_model.Owner</li>
-                <li>Group/Team Email address: @_model.OwnerEmailDL</li>
+                <li>Used to create resources in Azure</li>
+            </ul>
+            <ul>
+                <li>With Tags:</li>
+                <ul>
+                    <li>Criticality: @_model.Criticality</li>
+                    <li>Cost Center: @_model.CostCenter</li>
+                    <li>Environment: @_model.Environment</li>
+                    <li>Owner: @_model.Owner</li>
+                    <li>Group/Team Email address: @_model.OwnerEmailDL</li>
+                </ul>
+            </ul>
+            <li><b>Service Principal:</b> dev-ncus-@_model.AppName-sp</li>
+            <ul>
+                <li>Can deploy from your repository.</li>
+                <li>Can deploy resources to the resource group.</li>
+            </ul>
+
+            <li><b>Application Registration:</b> dev-ncus-@_model.AppName-app</li>
+            <ul>
+                <li>Used for authn/authz.</li>
             </ul>
         </ul>
-        <li><b>Service Principal:</b> dev-ncus-@_model.AppName-sp</li>
-        <ul>
-            <li>Can deploy from your repository.</li>
-            <li>Can deploy resources to the resource group.</li>
-        </ul>
-
-        <li><b>Application Registration:</b> dev-ncus-@_model.AppName-app</li>
-        <ul>
-            <li>Used for authn/authz.</li>
-        </ul>
-    </ul>
-</EditForm>
+    </div>
+</div>
 
 @code {
     [Inject] public IHttpClientFactory ClientFactory { get; set; } = default!;
     HttpClient GitHubClient = default!;
     readonly CreateAzureResourceModel _model = new();
 
-    Thread? _statusThread;
+    System.Timers.Timer? _statusTimer;
     string? _latestStatus;
+    string? _latestConclusion;
 
     protected override Task OnInitializedAsync()
     {
         GitHubClient = ClientFactory.CreateClient("GitHub");
 
-        var statusQuery = new StringContent(GitHubApi.StatusQuery, Encoding.UTF8, "application/json");
-        _statusThread = new Thread(async () =>
+        _statusTimer = new();
+        _statusTimer.Interval = 5_000;
+        _statusTimer.Elapsed += async (object? sender, ElapsedEventArgs e) =>
         {
-            while (true)
-            {
-                var response = await GitHubClient.PostAsync(GitHubApi.EndpointUrl, statusQuery);
-                var statusJson = await response.Content.ReadFromJsonAsync<Rootobject>()!;
+            var statusQuery = new StringContent(GitHubApi.StatusQuery, Encoding.UTF8, "application/json");
+            var response = await GitHubClient.PostAsync(GitHubApi.EndpointUrl, statusQuery);
+            var statusJson = await response.Content.ReadFromJsonAsync<Rootobject>()!;
 
-                _latestStatus = statusJson.data.node.runs.nodes[0].checkSuite.conclusion;
+            _latestStatus = statusJson.data.node.runs.nodes[0].checkSuite.status;
+            _latestConclusion = statusJson.data.node.runs.nodes[0].checkSuite.conclusion;
 
-                await InvokeAsync(StateHasChanged);
-
-                Thread.Sleep(5000);
-            }
-        });
+            await InvokeAsync(StateHasChanged);
+        };
 
         return base.OnInitializedAsync();
     }
@@ -139,18 +173,19 @@
         var gitAction = new GitAction();
         await gitAction.UploadFileAsync(pulumiStack, _model.AppName + ".cs");
 
-        _statusThread!.Start();
+        _latestStatus = "WORKING";
+        _statusTimer.Enabled = true;
     }
 
     class CreateAzureResourceModel
     {
         public string AppName { get; set; }
         public bool IsCreateDisabled { get; set; }
-        public string Criticality { get; set; }
-        public string CostCenter { get; set; }
+        public string Criticality { get; set; } = "Mission Critical";
+        public string CostCenter { get; set; } = "9098 - Engineering";
         public string Environment { get; set; } = "Dev";
-        public string Owner { get; set; }
-        public string OwnerEmailDL { get; set; }
+        public string Owner { get; set; } = "Accounting IT";
+        public string OwnerEmailDL { get; set; } = "AccountingIT@corp.caseys.com";
     }
 
     public class Rootobject
