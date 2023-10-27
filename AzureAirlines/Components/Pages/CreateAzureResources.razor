@@ -1,4 +1,4 @@
-﻿@page "/add"
+﻿@page "/"
 @using System.Text
 @using System.Timers
 @attribute [RenderModeInteractiveServer]
@@ -113,7 +113,7 @@
                     <li>Cost Center: @_model.CostCenter</li>
                     <li>Environment: @_model.Environment</li>
                     <li>Owner: @_model.Owner</li>
-                    <li>Group/Team Email address: @_model.OwnerEmailDL</li>
+                    <li>Owner Email: @_model.OwnerEmailDL</li>
                 </ul>
             </ul>
             <li><b>Service Principal:</b> dev-ncus-@_model.AppName-sp</li>
@@ -154,6 +154,12 @@
             _latestStatus = statusJson.data.node.runs.nodes[0].checkSuite.status;
             _latestConclusion = statusJson.data.node.runs.nodes[0].checkSuite.conclusion;
 
+            if (_latestStatus == "COMPLETED")
+            {
+                _statusTimer.Enabled = false;
+                _model.IsCreateDisabled = false;
+            }
+
             await InvokeAsync(StateHasChanged);
         };
 
@@ -169,6 +175,11 @@
         var template = new PulumiStackTemplate();
         var pulumiStack = template.TransformText();
         pulumiStack = pulumiStack.Replace("@AppName", _model.AppName);
+        pulumiStack = pulumiStack.Replace("@Criticality", _model.Criticality);
+        pulumiStack = pulumiStack.Replace("@CostCenter", _model.CostCenter);
+        pulumiStack = pulumiStack.Replace("@Environment", _model.Environment);
+        pulumiStack = pulumiStack.Replace("@OwnerName", _model.Owner);
+        pulumiStack = pulumiStack.Replace("@OwnerEmailDL", _model.OwnerEmailDL);
 
         var gitAction = new GitAction();
         await gitAction.UploadFileAsync(pulumiStack, _model.AppName + ".cs");
@@ -182,7 +193,7 @@
         public string AppName { get; set; }
         public bool IsCreateDisabled { get; set; }
         public string Criticality { get; set; } = "Mission Critical";
-        public string CostCenter { get; set; } = "9098 - Engineering";
+        public string CostCenter { get; set; } = "9069-Engineering";
         public string Environment { get; set; } = "Dev";
         public string Owner { get; set; } = "Accounting IT";
         public string OwnerEmailDL { get; set; } = "AccountingIT@corp.caseys.com";

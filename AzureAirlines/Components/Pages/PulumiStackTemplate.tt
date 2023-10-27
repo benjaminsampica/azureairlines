@@ -16,8 +16,8 @@ internal class @AppNameDevStackBuilder : IAzureDevStackBuilder
             { "Criticality", "@Criticality" },
             { "Cost Center", "@CostCenter" },
             { "Environment", "@Environment" },
-            { "Owner", "@Owner" },
-            { "OwnerEmailDL", "@GroupTeamEmailAddress" },
+            { "Owner", "@OwnerName" },
+            { "OwnerEmailDL", "@OwnerEmailDL" },
         };
 
         var resourceGroup = new ResourceGroup($"{environment}-ncus-{appName}-rg-01", new ResourceGroupArgs
