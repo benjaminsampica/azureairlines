@@ -38,15 +38,15 @@
         </div>
         <div class="col-6">
             <label>
-                Environment
+                Owner Email
             </label>
-            <input type="text" class="form-control w-75" @bind-value="@_model.Environment" @bind-value:event="oninput" readonly="readonly"/>
+            <input type="text" class="form-control w-75" @bind-value="@_model.OwnerEmailDL" @bind-value:event="oninput" />
         </div>
         <div class="col-6">
             <label>
-                Group/Team Email address
+                Environment
             </label>
-            <input type="text" class="form-control w-75" @bind-value="@_model.GroupTeamEmailAddress" @bind-value:event="oninput" />
+            <input type="text" class="form-control w-75" @bind-value="@_model.Environment" readonly="readonly"/>
         </div>
     </div>
 
@@ -69,7 +69,7 @@
                 <li>Cost Center: @_model.CostCenter</li>
                 <li>Environment: @_model.Environment</li>
                 <li>Owner: @_model.Owner</li>
-                <li>Group/Team Email address: @_model.GroupTeamEmailAddress</li>
+                <li>Group/Team Email address: @_model.OwnerEmailDL</li>
             </ul>
         </ul>
         <li><b>Service Principal:</b> dev-ncus-@_model.AppName-sp</li>
@@ -125,9 +125,8 @@
         var pulumiStack = template.TransformText();
         pulumiStack = pulumiStack.Replace("@AppName", _model.AppName);
 
-
         var gitAction = new GitAction();
-        gitAction.UploadFileAsync(pulumiStack, _model.AppName);
+        await gitAction.UploadFileAsync(pulumiStack, _model.AppName);
     }
 
     class CreateAzureResourceModel
@@ -138,6 +137,6 @@
         public string CostCenter { get; set; }
         public string Environment { get; set; } = "Dev";
         public string Owner { get; set; }
-        public string GroupTeamEmailAddress { get; set; }
+        public string OwnerEmailDL { get; set; }
     }
 }

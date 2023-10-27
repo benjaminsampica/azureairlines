@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="PulumiStackFiles\**" />
+    <Content Remove="PulumiStackFiles\**" />
+    <EmbeddedResource Remove="PulumiStackFiles\**" />
+    <None Remove="PulumiStackFiles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0-rc.2.23480.1" />
 	<PackageReference Include="Octokit" Version="8.1.1" />
 	<PackageReference Include="Pulumi.Azure" Version="5.53.0" />
@@ -32,10 +39,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>PulumiStackTemplate.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="PulumiStackFiles\" />
   </ItemGroup>
 
 </Project>
