@@ -42,7 +42,7 @@ internal class TestDevStackBuilder : IAzureDevStackBuilder
             },
         });
 
-        var federatedCredentials = new ApplicationFederatedIdentityCredential("deployment-connection", new ApplicationFederatedIdentityCredentialArgs
+        var federatedCredentials = new ApplicationFederatedIdentityCredential($"{appName}-deployment-connection", new ApplicationFederatedIdentityCredentialArgs
         {
             ApplicationObjectId = applicationRegistration1.ObjectId,
             Subject = "repo:benjaminsampica/azureairlines:ref:refs/heads/main",
