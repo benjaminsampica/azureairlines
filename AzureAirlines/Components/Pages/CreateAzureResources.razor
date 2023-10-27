@@ -26,13 +26,28 @@
                     <label>
                         Criticality
                     </label>
-                    <input type="text" class="form-control w-75" @bind-value="@_model.Criticality" @bind-value:event="oninput" />
+                    <select class="form-select w-75" @bind="@_model.Criticality">
+                        <option>Mission Critical</option>
+                        <option>Business Essential</option>
+                        <option>Business Core</option>
+                        <option>Business Supporting</option>
+                        <option>Not Critical</option>
+                    </select>
                 </div>
                 <div class="col-6 mb-2">
                     <label>
                         Cost Center
                     </label>
-                    <input type="text" class="form-control w-75" @bind-value="@_model.CostCenter" @bind-value:event="oninput" />
+                    <select class="form-select w-75" @bind="@_model.CostCenter">
+                        <option>9064-Security</option>
+                        <option>9065-Digital Engineering</option>
+                        <option>9067-Operations</option>
+                        <option>9068-Infrastructure</option>
+                        <option>9069-Engineering</option>
+                        <option>9072-IT Architecture & Planning</option>
+                        <option>9073-Data&Analytics</option>
+                        <option>9074-CorporateSystems</option>
+                    </select>
                 </div>
                 <div class="col-6 mb-2">
                     <label>
