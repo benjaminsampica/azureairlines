@@ -15,7 +15,7 @@ namespace AzureAirlines.Components.Pages
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\Ben\Source\Repos\benjaminsampica\azureairlines\AzureAirlines\Components\Pages\PulumiStackTemplate.tt"
+    #line 1 "C:\Users\684314\developer\source\azureairlines\AzureAirlines\Components\Pages\PulumiStackTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class PulumiStackTemplate : PulumiStackTemplateBase
     {
@@ -26,25 +26,43 @@ namespace AzureAirlines.Components.Pages
         public virtual string TransformText()
         {
             this.Write("using Pulumi.AzureAD;\r\nusing Pulumi.AzureNative.Authorization;\r\nusing Pulumi.Azur" +
-                    "eNative.Resources;\r\n\r\nnamespace AzureAirlines.Deployment;\r\n\r\ninternal class @App" +
-                    "NameDevStackBuilder : IAzureDevStackBuilder\r\n{\r\n    public void Build()\r\n    {\r\n" +
-                    "        var appName = \"@AppName\";\r\n        var environment = \"dev\";\r\n        var" +
-                    " current = Pulumi.AzureAD.GetClientConfig.Invoke();\r\n\r\n        var resourceGroup" +
-                    " = new ResourceGroup($\"${environment}-ncus-{appName}-rg-01\", new ResourceGroupAr" +
-                    "gs\r\n        {\r\n            Location = \"North Central US\",\r\n            ResourceG" +
-                    "roupName = $\"${environment}-ncus-{appName}-rg-01\"\r\n        });\r\n\r\n        var ap" +
-                    "plicationRegistration = new Application($\"${environment}-ncus-{appName}-sp\", new" +
-                    " ApplicationArgs\r\n        {\r\n            DisplayName = $\"${environment}-ncus-{ap" +
-                    "pName}-sp\"\r\n        });\r\n\r\n        var servicePrincipal = new ServicePrincipal($" +
-                    "\"${environment}-ncus-{appName}-sp\", new()\r\n        {\r\n            ApplicationId " +
-                    "= applicationRegistration.ApplicationId,\r\n            AppRoleAssignmentRequired " +
-                    "= false,\r\n            Owners = new[]\r\n            {\r\n                current.App" +
-                    "ly(gccr => gccr.ObjectId),\r\n            },\r\n        });\r\n\r\n        var roleAssig" +
-                    "nment = new RoleAssignment(nameof(RoleDefinitions.Contributor), new RoleAssignme" +
-                    "ntArgs\r\n        {\r\n            RoleDefinitionId = $\"/providers/Microsoft.Authori" +
-                    "zation/roleDefinitions/{RoleDefinitions.Contributor}\",\r\n            PrincipalId " +
-                    "= servicePrincipal.ObjectId,\r\n            Scope = resourceGroup.Id,\r\n           " +
-                    " PrincipalType = \"ServicePrincipal\"\r\n        });\r\n    }\r\n}");
+                    "eNative.Resources;\r\n\r\nnamespace AzureAirlines.Deployment;\r\n\r\ninternal class Test" +
+                    "DevStackBuilder : IAzureDevStackBuilder\r\n{\r\n    public void Build()\r\n    {\r\n    " +
+                    "    var appName = \"@AppName\";\r\n        var environment = \"dev\";\r\n        var cur" +
+                    "rent = Pulumi.AzureAD.GetClientConfig.Invoke();\r\n        var tags = new Dictiona" +
+                    "ry<string, string>()\r\n        {\r\n            { \"Criticality\", \"@Criticality\" },\r" +
+                    "\n            { \"Cost Center\", \"@CostCenter\" },\r\n            { \"Environment\", \"@E" +
+                    "nvironment\" },\r\n            { \"Owner\", \"@Owner\" },\r\n            { \"Group/Team Em" +
+                    "ail address\", \"@GroupTeamEmailAddress\" },\r\n        };\r\n\r\n        var resourceGro" +
+                    "up = new ResourceGroup($\"{environment}-ncus-{appName}-rg-01\", new ResourceGroupA" +
+                    "rgs\r\n        {\r\n            Location = \"North Central US\",\r\n            Resource" +
+                    "GroupName = $\"{environment}-ncus-{appName}-rg-01\",\r\n            Tags = tags\r\n   " +
+                    "     });\r\n\r\n        var applicationRegistration1 = new Application($\"{environmen" +
+                    "t}-ncus-{appName}-sp\", new ApplicationArgs\r\n        {\r\n            DisplayName =" +
+                    " $\"{environment}-ncus-{appName}-sp\"\r\n        });\r\n\r\n        var servicePrincipal" +
+                    "1 = new ServicePrincipal($\"{environment}-ncus-{appName}-sp\", new()\r\n        {\r\n " +
+                    "           ApplicationId = applicationRegistration1.ApplicationId,\r\n            " +
+                    "AppRoleAssignmentRequired = false,\r\n            Owners = new[]\r\n            {\r\n " +
+                    "               current.Apply(gccr => gccr.ObjectId),\r\n            },\r\n        })" +
+                    ";\r\n\r\n        var federatedCredentials = new ApplicationFederatedIdentityCredenti" +
+                    "al(\"deployment-connection\", new ApplicationFederatedIdentityCredentialArgs\r\n    " +
+                    "    {\r\n            ApplicationId = applicationRegistration1.ApplicationId,\r\n    " +
+                    "        Subject = \"repo:benjaminsampica/azureairlines:ref:refs/heads/main\",\r\n   " +
+                    "         Issuer = \"https://token.actions.githubusercontent.com\",\r\n            Ap" +
+                    "plicationObjectId = applicationRegistration1.ApplicationId,\r\n            Audienc" +
+                    "es = [\"api://AzureADTokenExchange\"]\r\n        });\r\n\r\n        var roleAssignment =" +
+                    " new RoleAssignment(nameof(RoleDefinitions.Contributor), new RoleAssignmentArgs\r" +
+                    "\n        {\r\n            RoleDefinitionId = $\"/providers/Microsoft.Authorization/" +
+                    "roleDefinitions/{RoleDefinitions.Contributor}\",\r\n            PrincipalId = servi" +
+                    "cePrincipal1.ObjectId,\r\n            Scope = resourceGroup.Id,\r\n            Princ" +
+                    "ipalType = \"ServicePrincipal\"\r\n        });\r\n\r\n        var applicationRegistratio" +
+                    "n2 = new Application($\"{environment}-ncus-{appName}-app\", new ApplicationArgs\r\n " +
+                    "       {\r\n            DisplayName = $\"{environment}-ncus-{appName}-app\"\r\n       " +
+                    " });\r\n\r\n        var servicePrincipal2 = new ServicePrincipal($\"{environment}-ncu" +
+                    "s-{appName}-app\", new()\r\n        {\r\n            ApplicationId = applicationRegis" +
+                    "tration2.ApplicationId,\r\n            AppRoleAssignmentRequired = false,\r\n       " +
+                    "     Owners = new[]\r\n            {\r\n                current.Apply(gccr => gccr.O" +
+                    "bjectId),\r\n            },\r\n        });\r\n    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

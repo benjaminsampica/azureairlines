@@ -5,22 +5,83 @@
 <h3>Add Resources</h3>
 
 <EditForm OnValidSubmit="ValidFormSubmitted" Model=@_model>
+    <div class="row">
+        <div class="col-4">
+            <label>
+                Workload / Application Name
+            </label>
+            <input type="text" class="form-control" @bind-value="@_model.AppName" @bind-value:event="oninput" />
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <h5>Tags</h5>
+        </div>
+        <div class="col-6">
+            <label>
+                Criticality
+            </label>
+            <input type="text" class="form-control w-75" @bind-value="@_model.Criticality" @bind-value:event="oninput" />
+        </div>
+        <div class="col-6">
+            <label>
+                Cost Center
+            </label>
+            <input type="text" class="form-control w-75" @bind-value="@_model.CostCenter" @bind-value:event="oninput" />
+        </div>
+        <div class="col-6">
+            <label>
+                Owner
+            </label>
+            <input type="text" class="form-control w-75" @bind-value="@_model.Owner" @bind-value:event="oninput" />
+        </div>
+        <div class="col-6">
+            <label>
+                Environment
+            </label>
+            <input type="text" class="form-control w-75" @bind-value="@_model.Environment" @bind-value:event="oninput" readonly="readonly"/>
+        </div>
+        <div class="col-6">
+            <label>
+                Group/Team Email address
+            </label>
+            <input type="text" class="form-control w-75" @bind-value="@_model.GroupTeamEmailAddress" @bind-value:event="oninput" />
+        </div>
+    </div>
 
-    <label>
-        Workload / Application Name
-        <input type="text" class="form-control-lg" @bind-value="@_model.AppName" @bind-value:event="oninput"/>
-    </label>
-
-    <button class="btn btn-lg btn-primary" disabled="@_model.IsCreateDisabled">Create</button>
+    <button class="btn btn-lg btn-primary mt-1" disabled="@_model.IsCreateDisabled">Create</button>
 
     <hr />
 
     <h3>
-        Resources to be created
+        Azure resources to be created
     </h3>
     <ul>
-        <li>Resource Group: dev-ncus-@_model.AppName-rg-01</li>
-        <li>Service Principal: dev-ncus-@_model.AppName-sp</li>
+        <li><b>Resource Group:</b> dev-ncus-@_model.AppName-rg-01</li>
+        <ul>
+            <li>Used to create resources in Azure</li>
+        </ul>
+        <ul>
+            <li>With Tags:</li>
+            <ul>
+                <li>Criticality: @_model.Criticality</li>
+                <li>Cost Center: @_model.CostCenter</li>
+                <li>Environment: @_model.Environment</li>
+                <li>Owner: @_model.Owner</li>
+                <li>Group/Team Email address: @_model.GroupTeamEmailAddress</li>
+            </ul>
+        </ul>
+        <li><b>Service Principal:</b> dev-ncus-@_model.AppName-sp</li>
+        <ul>
+            <li>Can deploy from your repository.</li>
+            <li>Can deploy resources to the resource group.</li>
+        </ul>
+
+        <li><b>Application Registration:</b> dev-ncus-@_model.AppName-app</li>
+        <ul>
+            <li>Used for authn/authz.</li>
+        </ul>
     </ul>
 </EditForm>
 
@@ -69,7 +130,12 @@
 
     class CreateAzureResourceModel
     {
-        public string AppName { get; set; } = "devjam5";
+        public string AppName { get; set; }
         public bool IsCreateDisabled { get; set; }
+        public string Criticality { get; set; }
+        public string CostCenter { get; set; }
+        public string Environment { get; set; } = "Dev";
+        public string Owner { get; set; }
+        public string GroupTeamEmailAddress { get; set; }
     }
 }
