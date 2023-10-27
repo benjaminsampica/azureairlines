@@ -50,19 +50,20 @@ namespace AzureAirlines.Components.Pages
                     "ect = \"repo:benjaminsampica/azureairlines:ref:refs/heads/main\",\r\n            Iss" +
                     "uer = \"https://token.actions.githubusercontent.com\",\r\n            ApplicationObj" +
                     "ectId = applicationRegistration1.ApplicationId,\r\n            Audiences = [\"api:/" +
-                    "/AzureADTokenExchange\"]\r\n        });\r\n\r\n        var roleAssignment = new RoleAss" +
-                    "ignment(nameof(RoleDefinitions.Contributor), new RoleAssignmentArgs\r\n        {\r\n" +
-                    "            RoleDefinitionId = $\"/providers/Microsoft.Authorization/roleDefiniti" +
-                    "ons/{RoleDefinitions.Contributor}\",\r\n            PrincipalId = servicePrincipal1" +
-                    ".ObjectId,\r\n            Scope = resourceGroup.Id,\r\n            PrincipalType = \"" +
-                    "ServicePrincipal\"\r\n        });\r\n\r\n        var applicationRegistration2 = new App" +
-                    "lication($\"{environment}-ncus-{appName}-app\", new ApplicationArgs\r\n        {\r\n  " +
-                    "          DisplayName = $\"{environment}-ncus-{appName}-app\"\r\n        });\r\n\r\n    " +
-                    "    var servicePrincipal2 = new ServicePrincipal($\"{environment}-ncus-{appName}-" +
-                    "app\", new()\r\n        {\r\n            ApplicationId = applicationRegistration2.App" +
-                    "licationId,\r\n            AppRoleAssignmentRequired = false,\r\n            Owners " +
-                    "= new[]\r\n            {\r\n                current.Apply(gccr => gccr.ObjectId),\r\n " +
-                    "           },\r\n        });\r\n    }\r\n}");
+                    "/AzureADTokenExchange\"],\r\n            DisplayName = \"deployment-connection\"\r\n   " +
+                    "     });\r\n\r\n        var roleAssignment = new RoleAssignment(nameof(RoleDefinitio" +
+                    "ns.Contributor), new RoleAssignmentArgs\r\n        {\r\n            RoleDefinitionId" +
+                    " = $\"/providers/Microsoft.Authorization/roleDefinitions/{RoleDefinitions.Contrib" +
+                    "utor}\",\r\n            PrincipalId = servicePrincipal1.ObjectId,\r\n            Scop" +
+                    "e = resourceGroup.Id,\r\n            PrincipalType = \"ServicePrincipal\"\r\n        }" +
+                    ");\r\n\r\n        var applicationRegistration2 = new Application($\"{environment}-ncu" +
+                    "s-{appName}-app\", new ApplicationArgs\r\n        {\r\n            DisplayName = $\"{e" +
+                    "nvironment}-ncus-{appName}-app\"\r\n        });\r\n\r\n        var servicePrincipal2 = " +
+                    "new ServicePrincipal($\"{environment}-ncus-{appName}-app\", new()\r\n        {\r\n    " +
+                    "        ApplicationId = applicationRegistration2.ApplicationId,\r\n            App" +
+                    "RoleAssignmentRequired = false,\r\n            Owners = new[]\r\n            {\r\n    " +
+                    "            current.Apply(gccr => gccr.ObjectId),\r\n            },\r\n        });\r\n" +
+                    "    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
