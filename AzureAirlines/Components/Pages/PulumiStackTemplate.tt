@@ -44,11 +44,11 @@ internal class TestDevStackBuilder : IAzureDevStackBuilder
 
         var federatedCredentials = new ApplicationFederatedIdentityCredential("deployment-connection", new ApplicationFederatedIdentityCredentialArgs
         {
-            ApplicationId = applicationRegistration1.ApplicationId,
+            ApplicationObjectId = applicationRegistration1.ObjectId,
             Subject = "repo:benjaminsampica/azureairlines:ref:refs/heads/main",
             Issuer = "https://token.actions.githubusercontent.com",
-            ApplicationObjectId = applicationRegistration1.ApplicationId,
-            Audiences = ["api://AzureADTokenExchange"]
+            Audiences = ["api://AzureADTokenExchange"],
+            DisplayName = "deployment-connection"
         });
 
         var roleAssignment = new RoleAssignment(nameof(RoleDefinitions.Contributor), new RoleAssignmentArgs
